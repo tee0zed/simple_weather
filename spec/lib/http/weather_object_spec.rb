@@ -7,18 +7,18 @@ RSpec.describe SimpleWeather::HTTP::WeatherObject do
 
   describe '#temperature' do
     let(:method_call) { subject.temperature }
+    let(:body) do
+      {
+        'current' => {
+          'temp_c' => '10'
+        }
+      }
+    end
 
     context 'with weather_api provider' do
       let(:provider_name) { 'weather_api' }
 
       context 'with current_weather' do
-        let(:body) do
-          {
-            'current' => {
-              'temp_c' => '10'
-            }
-          }
-        end
         let(:expected_result) { '10' }
 
         it 'returns the temperature in metric' do
@@ -43,6 +43,18 @@ RSpec.describe SimpleWeather::HTTP::WeatherObject do
 
         it 'returns the temperature in metric' do
           expect(method_call).to eq expected_result
+        end
+      end
+
+      context 'with unknown error' do
+        let(:message) { 'unknown' }
+
+        before do
+          allow_any_instance_of(Hash).to receive(:dig).and_raise(StandardError, message)
+        end
+
+        it 'raises an error' do
+          expect { method_call }.to raise_error(SimpleWeather::Exceptions::ParseError)
         end
       end
     end

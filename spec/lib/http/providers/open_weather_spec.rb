@@ -22,20 +22,5 @@ RSpec.describe SimpleWeather::HTTP::Providers::OpenWeather do
         expect(method_call).to match URI::DEFAULT_PARSER.make_regexp
       end
     end
-
-    context 'with :history' do
-      let(:request_name) { :history_weather }
-      let(:params) { { lat: 1.333, lon: 2.555, date: Date.today.iso8601 } }
-
-      it 'contains params' do
-        params.each_value do |param|
-          expect(method_call).to include param.to_s
-        end
-      end
-
-      it 'builds valid url' do
-        expect(method_call).to match URI::DEFAULT_PARSER.make_regexp
-      end
-    end
   end
 end

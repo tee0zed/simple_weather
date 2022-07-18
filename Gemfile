@@ -10,7 +10,9 @@ gem 'httparty', '~> 0.20'
 
 group :test do
   gem 'bundler', '~> 2.1'
+  gem 'byebug'
   gem 'rspec', '~> 3.11'
+  gem 'vcr', '~> 3.0'
   gem 'rubocop'
   gem 'simplecov', require: false
 end

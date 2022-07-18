@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 module SimpleWeather
-  class Error < StandardError; end
+  module Exceptions
+    class Error < StandardError; end
+    class ParseError < Error; end
+    class BadResponse < Error
+      attr_reader :response
 
-  class BadResponse < Error
-    attr_reader :response
-
-    def initialize(response)
-      @response = response
-      super(response)
+      def initialize(response)
+        @response = response
+        super(response)
+      end
     end
   end
 end

@@ -42,7 +42,7 @@ module SimpleWeather
       def parse_lambda
         TEMPERATURE_FIELDS.dig(*[provider_name, request_name, units].map(&:to_sym))
       rescue StandardError
-        TypeError.new("#{provider_name} #{request_name} #{units}")
+        raise Exceptions::ParseError, "#{provider_name} #{request_name} #{units}"
       end
     end
   end

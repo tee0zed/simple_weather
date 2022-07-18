@@ -23,7 +23,7 @@ RSpec.describe SimpleWeather::HTTP::Handler do
       end
 
       it 'raises BadResponse' do
-        expect { method_call }.to raise_error(SimpleWeather::Exceptions::BadResponse)
+        expect { method_call }.to raise_error(SimpleWeather::BadResponse)
       end
     end
   end

@@ -26,20 +26,20 @@ module SimpleWeather
       attr_reader :provider, :provider_name, :units
       attr_accessor :request_name, :body
 
-      def initialize(request_name:, provider: :weather_api, units: :imperial)
+      def initialize(provider: :weather_api, units: :imperial)
         raise ArgumentError unless PROVIDERS.keys.include?(provider)
         raise ArgumentError unless METRICS_SYSTEMS.values.include?(units.to_s)
 
         @provider = PROVIDERS[provider].new
         @provider_name = provider.to_sym
         @units = units.to_sym
-        @request_name = request_name.to_sym
       end
 
-      def call(params:) # rubocop:disable Metrics/AbcSize
+      def call(request_name:, params:) # rubocop:disable Metrics/AbcSize
         raise ArgumentError unless params && request_name
         raise NoMethodError, "#{request_name} missing" unless provider.private_methods.grep(request_name).any?
 
+        request_name = request_name.to_sym
         url = provider.build_url_for(request_name, params, units:)
 
         response = handle { self.class.get(url) }
