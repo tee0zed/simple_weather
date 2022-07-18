@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SimpleWeather
   module HTTP
     module Providers
@@ -18,14 +16,7 @@ module SimpleWeather
             .url
         end
 
-        # Determines if the provider uses metrics option in query or it comes from body
-        def metric_units_in_query?
-          @metric_units_in_query
-        end
-
-        def both_units_in_response?
-          !metric_units_in_query?
-        end
+        protected
 
         def with_metric_system(_units)
           self
@@ -34,6 +25,16 @@ module SimpleWeather
         def with_api_key
           url << api_key_param
           self
+        end
+
+        private
+        # Determines if the provider uses metrics option in query or it comes from body
+        def metric_units_in_query?
+          @metric_units_in_query
+        end
+
+        def both_units_in_response?
+          !metric_units_in_query?
         end
       end
     end

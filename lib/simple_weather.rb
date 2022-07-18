@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'dotenv'
 require 'httparty'
 require 'json'

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'base_provider'
 
 module SimpleWeather
@@ -11,15 +9,7 @@ module SimpleWeather
           @metric_units_in_query = true
         end
 
-        def current_weather(lat:, lon:)
-          self.url = "#{base_url}/weather?#{coords_query(lat, lon)}"
-          self
-        end
-
-        def history_weather(lat:, lon:, date:)
-          self.url = "#{base_url}/history?#{coords_query(lat, lon)}&#{date_query(date)}"
-          self
-        end
+        protected
 
         def with_metric_system(units)
           url << "&units=#{units}"
@@ -28,12 +18,13 @@ module SimpleWeather
 
         private
 
-        def coords_query(lat, lon)
-          "lat=#{lat.to_f}&lon=#{lon.to_f}"
+        def current_weather(lat:, lon:)
+          self.url = "#{base_url}/weather?#{coords_query(lat, lon)}"
+          self
         end
 
-        def date_query(date)
-          "dt=#{date.to_i}"
+        def coords_query(lat, lon)
+          "lat=#{lat.to_f}&lon=#{lon.to_f}"
         end
 
         def base_url

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SimpleWeather
   module HTTP
     class WeatherObject
@@ -8,22 +6,18 @@ module SimpleWeather
       TEMPERATURE_FIELDS = {
         weather_api: {
           current_weather: {
-            imperial: %w[current temp_f],
-            metric: %w[current temp_c]
+            imperial: ->(body) { body.dig *%w[current temp_f] },
+            metric: ->(body) { body.dig *%w[current temp_c] }
           },
           history_weather: {
-            imperial: %w[history temp_f],
-            metric: %w[history temp_c]
+            imperial: ->(body) { body.dig(*%w[forecast forecastday]).first.dig(*%w[day avgtemp_f]) },
+            metric: ->(body) { body.dig(*%w[forecast forecastday]).first.dig(*%w[day avgtemp_c]) }
           }
         },
         open_weather: {
           current_weather: {
-            imperial: %w[main temp],
-            metric: %w[main temp]
-          },
-          history_weather: {
-            imperial: %w[main temp],
-            metric: %w[main temp]
+            imperial: ->(body) { body.dig *%w[main temp] },
+            metric: ->(body) { body.dig *%w[main temp] },
           }
         }
       }.freeze
@@ -36,17 +30,17 @@ module SimpleWeather
 
       def temperature
         return nil if body.nil?
-        return nil if parse_route.nil?
+        return nil if parse_lambda.nil?
 
-        body.dig(*parse_route)
+        parse_lambda.call(body)
       end
 
       private
 
-      def parse_route
-        TEMPERATURE_FIELDS.dig(provider_name, request_name, units)
+      def parse_lambda
+        TEMPERATURE_FIELDS.dig(*[provider_name, request_name, units].map(&:to_sym))
       rescue StandardError
-        TypeError
+        TypeError.new("#{provider_name} #{request_name} #{units}")
       end
     end
   end

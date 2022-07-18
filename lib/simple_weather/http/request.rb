@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+require 'httparty'
 
 require_relative 'handler'
 require_relative 'weather_object'
@@ -36,7 +36,7 @@ module SimpleWeather
 
       def call(params:)
         raise ArgumentError unless params && request_name
-        raise NotImplementedError "#{request_name} missing" unless provider.respond_to? request_name
+        raise NoMethodError.new "#{request_name} missing" unless provider.private_methods.grep(request_name).any?
 
         url = provider.build_url_for(request_name, params, units:)
 
