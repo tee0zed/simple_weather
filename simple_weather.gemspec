@@ -3,7 +3,7 @@
 require_relative 'lib/emoticon/version'
 
 Gem::Specification.new do |s|
-  s.required_ruby_version '>= 2.7.0'
+  s.required_ruby_version = '~> 3.1'
 
   s.name          = 'simple_weather'
   s.version       = SimpleWeather::VERSION

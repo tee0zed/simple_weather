@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'base_provider'
 
 module SimpleWeather
   module HTTP
     module Providers
       class WeatherApi < BaseProvider
-
         private
 
         def current_weather(lat:, lon:)
@@ -22,7 +23,7 @@ module SimpleWeather
         end
 
         def date_query(date)
-          "dt=#{date.to_s}"
+          "dt=#{date}"
         end
 
         def base_url

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SimpleWeather
   module HTTP
     module Handler

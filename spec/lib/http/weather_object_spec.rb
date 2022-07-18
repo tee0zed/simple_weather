@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe SimpleWeather::HTTP::WeatherObject do
   let(:subject) { described_class.new(request:) }
   let(:request) { double(provider_name:, request_name:, units: 'metric', body:) }
@@ -64,4 +66,3 @@ RSpec.describe SimpleWeather::HTTP::WeatherObject do
     end
   end
 end
-

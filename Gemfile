@@ -11,5 +11,6 @@ gem 'httparty', '~> 0.20'
 group :test do
   gem 'bundler', '~> 2.1'
   gem 'rspec', '~> 3.11'
+  gem 'rubocop'
   gem 'simplecov', require: false
 end

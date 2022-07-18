@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dotenv'
 require 'httparty'
 require 'json'
@@ -8,7 +10,7 @@ require_relative 'simple_weather/version'
 
 Dotenv.load
 
-module SimpleWeather
+class SimpleWeather
   module_function
 
   def call(provider:, units:, request_name:, params:)

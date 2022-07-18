@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SimpleWeather
   module HTTP
     module Providers
@@ -28,6 +30,7 @@ module SimpleWeather
         end
 
         private
+
         # Determines if the provider uses metrics option in query or it comes from body
         def metric_units_in_query?
           @metric_units_in_query

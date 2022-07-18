@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 
 require_relative 'handler'
@@ -34,9 +36,9 @@ module SimpleWeather
         @request_name = request_name.to_sym
       end
 
-      def call(params:)
+      def call(params:) # rubocop:disable Metrics/AbcSize
         raise ArgumentError unless params && request_name
-        raise NoMethodError.new "#{request_name} missing" unless provider.private_methods.grep(request_name).any?
+        raise NoMethodError, "#{request_name} missing" unless provider.private_methods.grep(request_name).any?
 
         url = provider.build_url_for(request_name, params, units:)
 

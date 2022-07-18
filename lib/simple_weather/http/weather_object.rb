@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SimpleWeather
   module HTTP
     class WeatherObject
@@ -6,8 +8,8 @@ module SimpleWeather
       TEMPERATURE_FIELDS = {
         weather_api: {
           current_weather: {
-            imperial: ->(body) { body.dig *%w[current temp_f] },
-            metric: ->(body) { body.dig *%w[current temp_c] }
+            imperial: ->(body) { body.dig(*%w[current temp_f]) },
+            metric: ->(body) { body.dig(*%w[current temp_c]) }
           },
           history_weather: {
             imperial: ->(body) { body.dig(*%w[forecast forecastday]).first.dig(*%w[day avgtemp_f]) },
@@ -16,8 +18,8 @@ module SimpleWeather
         },
         open_weather: {
           current_weather: {
-            imperial: ->(body) { body.dig *%w[main temp] },
-            metric: ->(body) { body.dig *%w[main temp] },
+            imperial: ->(body) { body.dig(*%w[main temp]) },
+            metric: ->(body) { body.dig(*%w[main temp]) }
           }
         }
       }.freeze
