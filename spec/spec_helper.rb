@@ -21,6 +21,7 @@ require 'simplecov'
 SimpleCov.start
 
 $LOAD_PATH.unshift File.expand_path('../lib/simple_weather', __dir__)
+require 'exceptions'
 require 'http/request'
 require 'http/handler'
 require 'http/weather_object'
