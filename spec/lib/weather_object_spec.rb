@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe SimpleWeather::HTTP::WeatherObject do
+RSpec.describe SimpleWeather::WeatherObject do
   let(:subject) { described_class.new(request:) }
   let(:request) { double(provider_name:, request_name:, units:, body: parsed_cassette_body(cassette_name)) }
   let(:request_name) { 'current_weather' }

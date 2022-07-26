@@ -22,7 +22,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           end
 
           it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
           end
         end
 
@@ -47,7 +47,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           end
 
           it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
           end
         end
 
@@ -61,7 +61,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           end
 
           it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
           end
         end
       end
@@ -82,7 +82,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           end
 
           it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
           end
         end
 
@@ -107,7 +107,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           end
 
           it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
           end
         end
 
@@ -121,7 +121,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           end
 
           it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
           end
         end
       end
