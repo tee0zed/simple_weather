@@ -1,29 +1,129 @@
 # frozen_string_literal: true
 
-RSpec.describe SimpleWeather::HTTP::Handler do
-  let(:subject) { Class.new { include SimpleWeather::HTTP::Handler }.new }
-  let(:method_call) { subject.handle(success_code:, &response) }
-  let(:success_code) { 200 }
+RSpec.describe SimpleWeather::HTTP::Request do
+  let(:params) { { lat: 1.22, lon: 1.33 } }
+  let(:subject) { described_class.new(request_name:, provider:, units:) }
+  let(:method_call) { subject.call(params) }
+  let(:result) { method_call } # For naming convention
 
-  let(:response) do
-    -> { double(code: success_code, data: Random.new(9)) }
-  end
+  describe '#call' do
+    context 'with :metric units' do
+      let(:units) { :metric }
 
-  describe '#handler' do
-    context 'with success response' do
-      it 'returns response' do
-        expect { method_call }.not_to raise_error
-        expect(method_call.data).to eq response.call.data
+      context 'with open_weather' do
+        let(:provider) { :open_weather }
+
+        context 'with :current method', vcr: { cassette_name: 'open_weather_current_weather_metric' } do
+          let(:request_name) { :current_weather }
+
+          it 'succeed API response' do
+            expect { method_call }.not_to raise_error
+            expect(result.body).not_to be_empty
+          end
+
+          it 'types to a WeatherObject' do
+            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+          end
+        end
+
+        context 'with :history method' do
+          let(:request_name) { :history_weather }
+
+          it 'succeed API response' do
+            expect { method_call }.to raise_error NoMethodError
+          end
+        end
+      end
+
+      context 'with weather_api' do
+        let(:provider) { :weather_api }
+
+        context 'with :current method', vcr: { cassette_name: 'weather_api_current_weather_metric' } do
+          let(:request_name) { :current_weather }
+
+          it 'succeed API response' do
+            expect { method_call }.not_to raise_error
+            expect(result.body).not_to be_empty
+          end
+
+          it 'types to a WeatherObject' do
+            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+          end
+        end
+
+        context 'with :history method', vcr: { cassette_name: 'weather_api_history_weather_metric' } do
+          let(:request_name) { :history_weather }
+          let(:params) { super().merge(date: Date.today.iso8601) }
+
+          it 'succeed API response' do
+            expect { method_call }.not_to raise_error
+            expect(result.body).not_to be_empty
+          end
+
+          it 'types to a WeatherObject' do
+            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+          end
+        end
       end
     end
 
-    context 'with failed response' do
-      let(:response) do
-        -> { double(code: 401) }
+    context 'with :imperial units' do
+      let(:units) { :imperial }
+
+      context 'with open_weather' do
+        let(:provider) { :open_weather }
+
+        context 'with :current method', vcr: { cassette_name: 'open_weather_current_weather_imperial' } do
+          let(:request_name) { :current_weather }
+
+          it 'succeed API response' do
+            expect { method_call }.not_to raise_error
+            expect(result.body).not_to be_empty
+          end
+
+          it 'types to a WeatherObject' do
+            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+          end
+        end
+
+        context 'with :history method' do
+          let(:request_name) { :history_weather }
+
+          it 'succeed API response' do
+            expect { method_call }.to raise_error NoMethodError
+          end
+        end
       end
 
-      it 'raises BadResponse' do
-        expect { method_call }.to raise_error(SimpleWeather::BadResponse)
+      context 'with weather_api' do
+        let(:provider) { :weather_api }
+
+        context 'with :current method', vcr: { cassette_name: 'weather_api_current_weather_imperial' } do
+          let(:request_name) { :current_weather }
+
+          it 'succeed API response' do
+            expect { method_call }.not_to raise_error
+            expect(result.body).not_to be_empty
+          end
+
+          it 'types to a WeatherObject' do
+            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+          end
+        end
+
+        context 'with :history method', vcr: { cassette_name: 'weather_api_history_weather_imperial' } do
+          let(:request_name) { :history_weather }
+          let(:params) { super().merge(date: Date.today.iso8601) }
+
+          it 'succeed API response' do
+            expect { method_call }.not_to raise_error
+            expect(result.body).not_to be_empty
+          end
+
+          it 'types to a WeatherObject' do
+            expect(result.to_weather).to be_a(SimpleWeather::HTTP::WeatherObject)
+          end
+        end
       end
     end
   end

@@ -12,7 +12,8 @@ group :test do
   gem 'bundler', '~> 2.1'
   gem 'byebug'
   gem 'rspec', '~> 3.11'
-  gem 'vcr', '~> 3.0'
   gem 'rubocop'
   gem 'simplecov', require: false
+  gem 'vcr', '~> 3.0'
+  gem 'webmock'
 end

@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.openweathermap.org/data/2.5/weather?appid=a456fc2fea42f544c907325c202c9b32&lat=1.22&lon=1.33&units=imperial
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Tue, 26 Jul 2022 08:39:41 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '488'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?lat=1.22&lon=1.33&units=imperial"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":1.33,"lat":1.22},"weather":[{"id":804,"main":"Clouds","description":"overcast
+        clouds","icon":"04d"}],"base":"stations","main":{"temp":75.99,"feels_like":76.77,"temp_min":75.99,"temp_max":75.99,"pressure":1015,"humidity":74,"sea_level":1015,"grnd_level":1015},"visibility":10000,"wind":{"speed":12.26,"deg":180,"gust":11.61},"clouds":{"all":100},"dt":1658824781,"sys":{"type":2,"id":2041606,"sunrise":1658814949,"sunset":1658858778},"timezone":0,"id":0,"name":"","cod":200}'
+    http_version:
+  recorded_at: Tue, 26 Jul 2022 08:39:41 GMT
+recorded_with: VCR 3.0.3

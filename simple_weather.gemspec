@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'lib/emoticon/version'
-
 Gem::Specification.new do |s|
   s.required_ruby_version = '~> 3.1'
 
@@ -18,8 +16,13 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://rubygems.org/gems/simple_weather_gem'
   s.license       = 'MIT'
 
+  s.add_runtime_dependency 'dotenv', '~> 2.7'
+  s.add_runtime_dependency 'httparty', '~> 0.20.0'
+
+  s.add_development_dependency 'bundler', '~> 2.3'
   s.add_development_dependency 'bundler', '~> 2.3'
   s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'rspec', '~> 3.11'
-  s.add_runtime_dependency 'thor', '~> 1.2'
+  s.add_development_dependency 'vcr'
+  s.add_development_dependency 'webmock'
 end

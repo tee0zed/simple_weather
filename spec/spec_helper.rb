@@ -19,16 +19,22 @@
 require 'dotenv/load'
 require 'uri'
 require 'simplecov'
-SimpleCov.start
+require 'byebug'
+require 'vcr'
 
-$LOAD_PATH.unshift File.expand_path('../lib/simple_weather', __dir__)
-require 'exceptions'
-require 'http/request'
-require 'http/handler'
-require 'http/weather_object'
-require 'http/providers/base_provider'
-require 'http/providers/weather_api'
-require 'http/providers/open_weather'
+if ENV['GITHUB_ACTIONS']
+  require 'simplecov'
+  SimpleCov.start
+end
+
+Dir['./lib/simple_weather/**/*.rb'].each { |f| require f }
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/support/cassettes'
+  config.hook_into :webmock
+  config.ignore_localhost = true
+  config.configure_rspec_metadata!
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -110,4 +116,13 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+end
+
+def parsed_cassette_body(cassette_name)
+  VCR.use_cassette(cassette_name) do |cassette|
+    JSON.parse(
+      YAML.parse(cassette.send(:raw_cassette_bytes))
+          .to_ruby['http_interactions'].first['response']['body']['string']
+    )
+  end
 end

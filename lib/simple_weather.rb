@@ -10,11 +10,11 @@ require_relative 'simple_weather/version'
 
 Dotenv.load
 
-class SimpleWeather
+module SimpleWeather
   module_function
 
-  def call(provider:, units:, request_name:, params:)
+  def fetch(provider:, units:, request_name:, params:)
     request = HTTP::Request.new(provider:, units:, request_name:)
-    request.call(params:).to_weather
+    request.call(params).to_weather
   end
 end
