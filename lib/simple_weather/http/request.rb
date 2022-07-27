@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-require 'httparty'
-
-require_relative 'handler'
-require_relative '../weather_object'
-require_relative 'providers/open_weather'
-require_relative 'providers/weather_api'
-
 module SimpleWeather
   module HTTP
     class Request

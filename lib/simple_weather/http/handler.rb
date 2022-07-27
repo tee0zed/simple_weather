@@ -9,7 +9,7 @@ module SimpleWeather
         response = request.call
         return response if response.code == success_code
 
-        raise Exceptions::BadResponse, response
+        raise Errors::BadResponse, response
       end
     end
   end

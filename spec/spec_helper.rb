@@ -21,6 +21,7 @@ require 'uri'
 require 'simplecov'
 require 'byebug'
 require 'vcr'
+require 'httparty'
 
 if ENV['GITHUB_ACTIONS']
   require 'simplecov'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SimpleWeather
-  module Exceptions
+  module Errors
     class Error < StandardError; end
     class ParseError < Error; end
 

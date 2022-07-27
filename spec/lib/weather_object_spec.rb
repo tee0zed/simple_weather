@@ -88,11 +88,11 @@ RSpec.describe SimpleWeather::WeatherObject do
           let(:message) { 'unknown' }
 
           before do
-            allow_any_instance_of(Hash).to receive(:dig).and_raise(StandardError, message)
+            allow_any_instance_of(String).to receive(:to_sym).and_raise(StandardError, message)
           end
 
           it 'raises an error' do
-            expect { method_call }.to raise_error(SimpleWeather::Exceptions::ParseError)
+            expect { method_call }.to raise_error(SimpleWeather::Errors::ParseError)
           end
         end
       end

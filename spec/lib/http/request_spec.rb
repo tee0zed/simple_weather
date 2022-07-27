@@ -53,7 +53,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
 
         context 'with :history method', vcr: { cassette_name: 'weather_api_history_weather_metric' } do
           let(:request_name) { :history_weather }
-          let(:params) { super().merge(date: Date.today.iso8601) }
+          let(:params) { super().merge(date: Date.parse('2022-07-26').iso8601) }
 
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
@@ -113,7 +113,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
 
         context 'with :history method', vcr: { cassette_name: 'weather_api_history_weather_imperial' } do
           let(:request_name) { :history_weather }
-          let(:params) { super().merge(date: Date.today.iso8601) }
+          let(:params) { super().merge(date: Date.parse('2022-07-26').iso8601) }
 
           it 'succeed API response' do
             expect { method_call }.not_to raise_error

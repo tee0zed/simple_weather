@@ -4,9 +4,13 @@ require 'dotenv'
 require 'httparty'
 require 'json'
 
+require_relative 'simple_weather/http/providers/base_provider'
+require_relative 'simple_weather/http/providers/open_weather'
+require_relative 'simple_weather/http/providers/weather_api'
+require_relative 'simple_weather/weather_object'
+require_relative 'simple_weather/http/handler'
 require_relative 'simple_weather/http/request'
-require_relative 'simple_weather/exceptions'
-require_relative 'simple_weather/version'
+require_relative 'simple_weather/errors'
 
 Dotenv.load
 
