@@ -4,6 +4,7 @@ module SimpleWeather
   module Errors
     class Error < StandardError; end
     class ParseError < Error; end
+    class WrongAttribute < Error; end
 
     class BadResponse < Error
       attr_reader :response

@@ -15,10 +15,33 @@ require_relative 'simple_weather/errors'
 Dotenv.load
 
 module SimpleWeather
-  module_function
+  PROVIDERS = {
+    weather_api: HTTP::Providers::WeatherApi,
+    open_weather: HTTP::Providers::OpenWeather
+  }.freeze
+
+  METRICS_SYSTEMS = {
+    metric: 'metric',
+    imperial: 'imperial'
+  }.freeze
+
+  extend self
 
   def fetch(provider:, units:, request_name:, params:)
-    request = HTTP::Request.new(provider:, units:, request_name:)
-    request.call(params).to_weather
+    validate_attrs!(request_name:, provider:, units:)
+
+    request = HTTP::Request.new(provider:).call(params, units:, request_name:)
+    WeatherObject.new(body: request.body, parse_route: [provider, request_name, units])
+  end
+
+  private
+
+  def validate_attrs!(request_name:, provider:, units:)
+    raise WrongAttribute unless PROVIDERS.keys.include?(provider)
+    raise WrongAttribute unless METRICS_SYSTEMS.values.include?(units.to_s)
+
+    if PROVIDERS[provider].private_instance_methods.grep(request_name).empty?
+      raise NoMethodError, "#{request_name} method is missing"
+    end
   end
 end

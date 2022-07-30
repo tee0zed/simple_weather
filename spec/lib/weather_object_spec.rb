@@ -1,21 +1,16 @@
 # frozen_string_literal: true
 
 RSpec.describe SimpleWeather::WeatherObject do
-  let(:subject) { described_class.new(request:) }
-  let(:request) { double(provider_name:, request_name:, units:, body: parsed_cassette_body(cassette_name)) }
-  let(:request_name) { 'current_weather' }
+  let(:subject) { described_class.new(body: parsed_cassette_body(cassette_name), parse_route:) }
 
   describe '#temperature' do
     let(:method_call) { subject.temperature }
 
     context 'with :metric units' do
-      let(:units) { :metric }
-
       context 'with weather_api provider' do
-        let(:provider_name) { 'weather_api' }
-
         context 'with current_weather' do
           let(:cassette_name) { 'weather_api_current_weather_metric' }
+          let(:parse_route) { [:weather_api, :current_weather, :metric] }
           let(:expected_result) { 13.0 }
 
           it 'returns the temperature in celsius' do
@@ -25,7 +20,7 @@ RSpec.describe SimpleWeather::WeatherObject do
 
         context 'with history_weather' do
           let(:cassette_name) { 'weather_api_history_weather_metric' }
-          let(:request_name) { 'history_weather' }
+          let(:parse_route) { [:weather_api, :history_weather, :metric] }
           let(:expected_result) { 15.0 }
 
           it 'returns the temperature in celsius' do
@@ -36,7 +31,7 @@ RSpec.describe SimpleWeather::WeatherObject do
 
       context 'with open_weather provider' do
         let(:cassette_name) { 'open_weather_current_weather_metric' }
-        let(:provider_name) { 'open_weather' }
+        let(:parse_route) { %w[open_weather current_weather metric] }
         let(:expected_result) { 24.44 }
 
         context 'with current_weather' do
@@ -48,13 +43,10 @@ RSpec.describe SimpleWeather::WeatherObject do
     end
 
     context 'with :imperial units' do
-      let(:units) { :imperial }
-
       context 'with weather_api provider' do
-        let(:provider_name) { 'weather_api' }
-
         context 'with current_weather' do
           let(:cassette_name) { 'weather_api_current_weather_imperial' }
+          let(:parse_route) { %w[weather_api current_weather imperial] }
           let(:expected_result) { 55.4 }
 
           it 'returns the temperature in fahrenheit' do
@@ -64,7 +56,7 @@ RSpec.describe SimpleWeather::WeatherObject do
 
         context 'with history_weather' do
           let(:cassette_name) { 'weather_api_history_weather_imperial' }
-          let(:request_name) { 'history_weather' }
+          let(:parse_route) { %w[weather_api history_weather imperial]  }
           let(:expected_result) { 59.0 }
 
           it 'returns the temperature in fahrenheit' do
@@ -75,7 +67,7 @@ RSpec.describe SimpleWeather::WeatherObject do
 
       context 'with open_weather provider' do
         let(:cassette_name) { 'open_weather_current_weather_imperial' }
-        let(:provider_name) { 'open_weather' }
+        let(:parse_route) { %w[open_weather current_weather imperial]  }
         let(:expected_result) { 75.99 }
 
         context 'with current_weather' do

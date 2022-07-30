@@ -6,53 +6,28 @@ module SimpleWeather
       include Handler
       include HTTParty
 
-      PROVIDERS = {
-        weather_api: Providers::WeatherApi,
-        open_weather: Providers::OpenWeather
-      }.freeze
+      attr_reader :provider
+      attr_accessor :body
 
-      METRICS_SYSTEMS = {
-        metric: 'metric',
-        imperial: 'imperial'
-      }.freeze
-
-      attr_reader :provider, :provider_name, :units
-      attr_accessor :request_name, :body
-
-      def initialize(request_name:, provider: :weather_api, units: :imperial)
-        validate_attrs!(request_name:, provider:, units:)
-
-        @provider = PROVIDERS[provider].new
-        @provider_name = provider.to_sym
-        @units = units.to_sym
-        @request_name = request_name.to_sym
+      def initialize(provider: :weather_api)
+        @provider = ::SimpleWeather::PROVIDERS[provider.to_sym].new
       end
 
-      def call(params)
-        response = handle { self.class.get(url(params)) }
+      def call(params, request_name:, units:)
+        response = handle { self.class.get(url(request_name, params, units:)) }
 
         self.body = JSON.parse(response.body)
         self
       end
 
-      def to_weather
-        WeatherObject.new(request: self)
-      end
-
       private
 
-      def url(params)
-        provider.build_url_for(request_name, params, units:)
+      def request_name
+        PROVIDERS.key provider.class
       end
 
-      def validate_attrs!(request_name:, provider:, units:)
-        raise ArgumentError unless PROVIDERS.keys.include?(provider)
-        raise ArgumentError unless METRICS_SYSTEMS.values.include?(units.to_s)
-
-        if PROVIDERS[provider].private_instance_methods.grep(request_name).empty?
-          raise NoMethodError,
-                "#{request_name} missing"
-        end
+      def url(request_name, params, units:)
+        provider.build_url_for(request_name, params, units:)
       end
     end
   end

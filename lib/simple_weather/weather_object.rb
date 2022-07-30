@@ -2,8 +2,6 @@
 
 module SimpleWeather
   class WeatherObject
-    extend Forwardable
-
     TEMPERATURE_FIELDS = {
       weather_api: {
         current_weather: {
@@ -23,10 +21,11 @@ module SimpleWeather
       }
     }.freeze
 
-    def_delegators :@request, :provider_name, :request_name, :units, :body
+    attr_reader :body, :parse_route
 
-    def initialize(request:)
-      @request = request
+    def initialize(body:, parse_route:)
+      @body = body
+      @parse_route = parse_route
     end
 
     def temperature
@@ -39,9 +38,9 @@ module SimpleWeather
     private
 
     def parse_lambda
-      TEMPERATURE_FIELDS.dig(*[provider_name, request_name, units].map(&:to_sym))
+      TEMPERATURE_FIELDS.dig(*parse_route.map(&:to_sym))
     rescue StandardError
-      raise Errors::ParseError, "#{provider_name} #{request_name} #{units}"
+      raise Errors::ParseError, parse_route.inspect
     end
   end
 end

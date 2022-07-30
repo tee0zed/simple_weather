@@ -28,6 +28,8 @@ if ENV['GITHUB_ACTIONS']
   SimpleCov.start
 end
 
+require './lib/simple_weather.rb'
+
 Dir['./lib/simple_weather/**/*.rb'].each { |f| require f }
 
 VCR.configure do |config|

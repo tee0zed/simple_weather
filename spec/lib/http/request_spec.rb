@@ -2,8 +2,8 @@
 
 RSpec.describe SimpleWeather::HTTP::Request do
   let(:params) { { lat: 1.22, lon: 1.33 } }
-  let(:subject) { described_class.new(request_name:, provider:, units:) }
-  let(:method_call) { subject.call(params) }
+  let(:subject) { described_class.new(provider:) }
+  let(:method_call) { subject.call(params, request_name:, units:) }
   let(:result) { method_call } # For naming convention
 
   describe '#call' do
@@ -19,10 +19,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
             expect(result.body).not_to be_empty
-          end
-
-          it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
+            expect(result.body).to be_a Hash
           end
         end
 
@@ -44,11 +41,9 @@ RSpec.describe SimpleWeather::HTTP::Request do
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
             expect(result.body).not_to be_empty
+            expect(result.body).to be_a Hash
           end
 
-          it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
-          end
         end
 
         context 'with :history method', vcr: { cassette_name: 'weather_api_history_weather_metric' } do
@@ -58,10 +53,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
             expect(result.body).not_to be_empty
-          end
-
-          it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
+            expect(result.body).to be_a Hash
           end
         end
       end
@@ -79,10 +71,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
             expect(result.body).not_to be_empty
-          end
-
-          it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
+            expect(result.body).to be_a Hash
           end
         end
 
@@ -104,10 +93,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
             expect(result.body).not_to be_empty
-          end
-
-          it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
+            expect(result.body).to be_a Hash
           end
         end
 
@@ -118,10 +104,7 @@ RSpec.describe SimpleWeather::HTTP::Request do
           it 'succeed API response' do
             expect { method_call }.not_to raise_error
             expect(result.body).not_to be_empty
-          end
-
-          it 'types to a WeatherObject' do
-            expect(result.to_weather).to be_a(SimpleWeather::WeatherObject)
+            expect(result.body).to be_a Hash
           end
         end
       end
